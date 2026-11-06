@@ -2,731 +2,720 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
- <link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#16a34a">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Parcel Profit Tracker</title>
+<meta name="theme-color" content="#b5121b">
+<link rel="manifest" href="manifest.json">
+<title>J&T Parcel Profit Tracker</title>
+
 <style>
 *{box-sizing:border-box}
+:root{
+  --bg:#160b0c;
+  --card:#261416;
+  --card2:#35171b;
+  --border:#51272c;
+  --red:#e60012;
+  --red2:#ff4657;
+  --text:#fff2f2;
+  --muted:#c9aeb1;
+  --green:#38c879;
+}
 body{
- margin:0;padding:16px;
- background:#0b1512;color:#f2f7f3;
- font:15px Arial,sans-serif
+  margin:0;
+  padding:15px;
+  background:var(--bg);
+  color:var(--text);
+  font-family:Arial,sans-serif;
 }
-main{max-width:650px;margin:auto}
-h1{color:#65d69a;font-size:25px}
-h2{font-size:18px;margin-top:0}
-small,.hint{color:#a9bbb1}
+.container{max-width:850px;margin:auto}
+header{text-align:center;padding:15px 5px 20px}
+header h1{color:var(--red2);margin:0;font-size:27px}
+header p{color:var(--muted);margin:7px 0 0;font-size:13px}
 .card{
- background:#14231e;border:1px solid #294238;
- border-radius:15px;padding:16px;margin:14px 0
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:14px;
+  padding:16px;
+  margin-bottom:15px;
 }
-.hero{background:#173c2c}
-.amount{font-size:36px;font-weight:bold;color:#65d69a;margin:8px 0}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.stat{background:#ffffff0c;padding:12px;border-radius:10px}
-.stat b{display:block;font-size:21px}
-.stat span{font-size:12px;color:#a9bbb1}
-label{display:block;color:#b8c9bf;font-size:13px;margin-top:12px}
-input,select{
- width:100%;padding:12px;margin-top:6px;
- background:#0b1512;color:white;
- border:1px solid #365446;border-radius:9px;
- font-size:16px
+h2{font-size:18px;margin:0 0 14px;color:var(--red2)}
+h3{font-size:15px;margin:14px 0 8px;color:#ffc1c7}
+label{
+  display:block;
+  font-size:13px;
+  color:var(--muted);
+  margin:10px 0 5px;
 }
-.row{
- display:flex;justify-content:space-between;gap:8px;
- padding:10px 0;border-bottom:1px solid #294238;
- font-size:14px
+input{
+  width:100%;
+  padding:12px;
+  border-radius:9px;
+  border:1px solid var(--border);
+  background:#170d0e;
+  color:white;
+  font-size:16px;
 }
-.row span{color:#b8c9bf}
-.total{font-weight:bold;font-size:17px}
+input:focus{outline:1px solid var(--red)}
+.grid{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:10px;
+}
 button{
- width:100%;padding:13px;margin-top:9px;
- border:0;border-radius:9px;
- background:#65d69a;color:#092016;
- font-size:14px;font-weight:bold
+  border:0;
+  border-radius:9px;
+  padding:12px 14px;
+  background:var(--red);
+  color:white;
+  font-size:14px;
+  font-weight:bold;
+  cursor:pointer;
 }
-.secondary{background:#294238;color:white}
-.danger{background:#58302e;color:white}
-.record{padding:12px 0;border-bottom:1px solid #365446}
-.record b{color:#65d69a}
-.hint{font-size:12px;line-height:1.5;margin-top:10px}
-.tabs{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.empty{color:#a9bbb1;padding:10px 0}
+button:active{transform:scale(.98)}
+button.secondary{background:#65252d}
+button.danger{background:#8b1e28}
+button.full{width:100%;margin-top:14px}
+button.small{padding:7px 10px;font-size:12px}
+.result{
+  background:var(--card2);
+  border:1px solid var(--border);
+  border-radius:10px;
+  padding:12px;
+  margin-top:12px;
+}
+.result-row{
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  padding:7px 0;
+  border-bottom:1px solid #583039;
+  font-size:14px;
+}
+.result-row:last-child{border:0}
+.amount{font-weight:bold;color:var(--red2)}
+.total{
+  font-size:20px;
+  color:#ff6471;
+  font-weight:bold;
+}
+.muted{color:var(--muted);font-size:12px}
+.tabs{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:7px;
+  margin-bottom:15px;
+}
+.tabs button{background:#3a2023}
+.tabs button.active{background:var(--red)}
+.section{display:none}
+.section.active{display:block}
+.history-item{
+  background:#1c1012;
+  border:1px solid var(--border);
+  padding:12px;
+  border-radius:10px;
+  margin:9px 0;
+}
+.history-top{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:8px;
+}
+.history-item p{font-size:13px;color:var(--muted);margin:7px 0}
+.stat-grid{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:9px;
+}
+.stat{
+  background:#35171b;
+  border:1px solid var(--border);
+  padding:12px;
+  border-radius:10px;
+}
+.stat span{display:block;color:var(--muted);font-size:12px}
+.stat strong{display:block;color:var(--red2);font-size:18px;margin-top:5px}
+.month-select{margin-bottom:12px}
+.empty{text-align:center;color:var(--muted);padding:20px}
+hr{border:0;border-top:1px solid var(--border);margin:15px 0}
+@media(max-width:420px){
+  body{padding:10px}
+  .grid{gap:8px}
+  .card{padding:13px}
+  header h1{font-size:23px}
+}
 </style>
 </head>
 
 <body>
-<main>
+<div class="container">
 
-<h1>📦 Parcel Profit Tracker</h1>
-<small>Daily Delivery Earnings & Profit Manager</small>
+<header>
+  <h1>J&T PARCEL PROFIT TRACKER</h1>
+  <p>Daily Earnings • Expenses • Payroll Projection</p>
+</header>
 
-<!-- DASHBOARD -->
-<div class="card hero">
- <small>NET PROFIT TODAY</small>
- <div class="amount" id="net">₱755.00</div>
-
- <div class="grid">
-  <div class="stat">
-   <b id="eligibleStat">0</b>
-   <span>Regular + SDD deliveries</span>
-  </div>
-  <div class="stat">
-   <b id="rateStat">—</b>
-   <span>Successful delivery rate</span>
-  </div>
- </div>
+<div class="tabs">
+  <button class="active" onclick="showTab('daily',this)">Daily</button>
+  <button onclick="showTab('history',this)">History</button>
+  <button onclick="showTab('payroll',this)">Payroll</button>
 </div>
 
-<!-- DAILY INPUT -->
+<!-- DAILY ENTRY -->
+<div id="daily" class="section active">
+
 <div class="card">
-<h2>📋 Daily Delivery Details</h2>
+<h2>Daily Record</h2>
 
 <label>Date</label>
 <input type="date" id="date">
 
 <h3>Regular Parcels</h3>
-
-<label>Regular Assigned Parcels</label>
-<input type="number" id="regularAssigned" min="0" value="0">
-
-<label>Regular Successfully Delivered</label>
-<input type="number" id="regularDelivered" min="0" value="0">
+<div class="grid">
+  <div>
+    <label>Regular Assigned</label>
+    <input type="number" id="regularAssigned" min="0" value="0">
+  </div>
+  <div>
+    <label>Regular Delivered</label>
+    <input type="number" id="regularDelivered" min="0" value="0">
+  </div>
+</div>
 
 <h3>SDD Parcels</h3>
+<div class="grid">
+  <div>
+    <label>SDD Assigned</label>
+    <input type="number" id="sddAssigned" min="0" value="0">
+  </div>
+  <div>
+    <label>SDD Delivered</label>
+    <input type="number" id="sddDelivered" min="0" value="0">
+  </div>
+</div>
 
-<label>SDD Assigned Parcels</label>
-<input type="number" id="sddAssigned" min="0" value="0">
-
-<label>SDD Successfully Delivered</label>
-<input type="number" id="sddDelivered" min="0" value="0">
-
-<h3>Pickup Parcels</h3>
-
-<label>Pickup Parcels Collected</label>
+<h3>Pickup</h3>
+<label>Number of Pickups</label>
 <input type="number" id="pickup" min="0" value="0">
 
-<h3>Additional Details</h3>
-
-<label>Total Successful Deliveries Before 12 NN</label>
+<h3>Gas Allowance Details</h3>
+<label>Successful Deliveries Before 12 NN</label>
 <input type="number" id="beforeNoon" min="0" value="0">
 
-<label>Work Expenses (₱)</label>
+<h3>Expenses</h3>
+<label>Daily Work Expenses (₱)</label>
 <input type="number" id="expenses" min="0" step="0.01" value="0">
 
-<p class="hint">
-Regular and SDD parcels count toward the 80 and 110 delivery thresholds.
-Pickup parcels earn ₱20 each but do not count toward these thresholds.
-</p>
+<button class="full" onclick="calculate()">Calculate Earnings</button>
+
+<div id="dailyResult" class="result" style="display:none"></div>
+
+<button class="full" onclick="saveRecord()">Save Daily Record</button>
+<p class="muted">Save your calculated record to include it in your history and payroll projection.</p>
 </div>
 
-<!-- CALCULATOR -->
 <div class="card">
-<h2>💰 Earnings Breakdown</h2>
-
-<div class="row">
-<span>Basic Pay</span>
-<b id="basic">₱755.00</b>
+<h2>Earnings Rules</h2>
+<div class="result-row"><span>Basic Pay</span><b>₱755 per active day</b></div>
+<div class="result-row"><span>Regular Incentive</span><b>₱10 per regular delivery above 80</b></div>
+<div class="result-row"><span>SDD Earnings</span><b>₱20 per successful SDD</b></div>
+<div class="result-row"><span>Pickup Earnings</span><b>₱20 per pickup</b></div>
+<div class="result-row"><span>80+ Successful Deliveries</span><b>₱200</b></div>
+<div class="result-row"><span>60+ Before Noon</span><b>₱50</b></div>
+<div class="result-row"><span>110+ and 95.5% Success Rate</span><b>₱100</b></div>
 </div>
 
-<div class="row">
-<span>Regular Parcel Incentive</span>
-<b id="incentive">₱0.00</b>
-</div>
-
-<div class="row">
-<span>80+ Delivery Allowance</span>
-<b id="allowance">₱0.00</b>
-</div>
-
-<div class="row">
-<span>60+ Before Noon Bonus</span>
-<b id="noonBonus">₱0.00</b>
-</div>
-
-<div class="row">
-<span>SDD Earnings (₱20 each)</span>
-<b id="sddPay">₱0.00</b>
-</div>
-
-<div class="row">
-<span>Pickup Earnings (₱20 each)</span>
-<b id="pickupPay">₱0.00</b>
-</div>
-
-<div class="row">
-<span>110+ Performance Bonus</span>
-<b id="performance">₱0.00</b>
-</div>
-
-<div class="row total">
-<span>GROSS EARNINGS</span>
-<b id="gross">₱755.00</b>
-</div>
-
-<div class="row">
-<span>Less Expenses</span>
-<b id="expenseLine">₱0.00</b>
-</div>
-
-<div class="row total">
-<span>NET PROFIT</span>
-<b id="netLine">₱755.00</b>
-</div>
-
-<p class="hint" id="details"></p>
-
-<button onclick="saveDay()">💾 SAVE DAILY RECORD</button>
-</div>
-
-<!-- MONTHLY REPORT -->
-<div class="card">
-<h2>📊 Monthly Earnings Report</h2>
-
-<label>Select Month</label>
-<input type="month" id="month">
-
-<div class="row">
-<span>Total Working Days</span>
-<b id="workDays">0</b>
-</div>
-
-<div class="row">
-<span>Total Regular Deliveries</span>
-<b id="monthRegular">0</b>
-</div>
-
-<div class="row">
-<span>Total SDD Parcels</span>
-<b id="monthSDD">0</b>
-</div>
-
-<div class="row">
-<span>Total Pickup Parcels</span>
-<b id="monthPickup">0</b>
-</div>
-
-<div class="row">
-<span>Total Gross Earnings</span>
-<b id="monthGross">₱0.00</b>
-</div>
-
-<div class="row">
-<span>Total Expenses</span>
-<b id="monthExpenses">₱0.00</b>
-</div>
-
-<div class="row total">
-<span>MONTHLY NET PROFIT</span>
-<b id="monthNet">₱0.00</b>
-</div>
 </div>
 
 <!-- HISTORY -->
+<div id="history" class="section">
 <div class="card">
-<h2>📅 Daily History</h2>
-
-<div id="history" class="empty">
-No records saved yet.
+<h2>Daily History</h2>
+<div id="historyList"></div>
 </div>
 
-<button class="secondary" onclick="exportBackup()">
-EXPORT BACKUP
-</button>
+<div class="card">
+<h2>Backup and Restore</h2>
+<p class="muted">Export a backup of your saved daily records. Keep the JSON file somewhere safe.</p>
+<button class="full" onclick="exportBackup()">Export Backup</button>
 
-<button class="secondary" onclick="document.getElementById('file').click()">
-IMPORT BACKUP
-</button>
+<label>Import Backup JSON</label>
+<input type="file" id="importFile" accept=".json,application/json">
+<button class="full secondary" onclick="importBackup()">Import Backup</button>
 
-<input type="file" id="file" accept=".json"
-style="display:none" onchange="importBackup(event)">
-
-<button class="danger" onclick="clearHistory()">
-CLEAR ALL HISTORY
-</button>
-
-<p class="hint">
-Records are stored locally on this browser. Export backups regularly to protect your records.
-</p>
+<hr>
+<button class="full danger" onclick="clearHistory()">Clear All History</button>
+<p class="muted">Clearing history cannot be undone. Export a backup first.</p>
+</div>
 </div>
 
-</main>
+<!-- PAYROLL -->
+<div id="payroll" class="section">
+
+<div class="card">
+<h2>Payroll Projection</h2>
+<label>Select Month</label>
+<input class="month-select" type="month" id="payrollMonth" onchange="showPayrollProjection()">
+
+<p class="muted">Projection is based only on your saved daily records.</p>
+
+<h3>1st Cutoff (1–15)</h3>
+<div class="stat-grid">
+  <div class="stat">
+    <span>Basic Pay</span>
+    <strong id="firstBasic">₱0.00</strong>
+  </div>
+  <div class="stat">
+    <span>Gas Allowance</span>
+    <strong id="firstGas">₱0.00</strong>
+  </div>
+</div>
+<div class="result">
+  <div class="result-row"><b>1st Cutoff Total</b><b class="total" id="firstTotal">₱0.00</b></div>
+</div>
+
+<hr>
+
+<h3>2nd Cutoff (16–End of Month)</h3>
+<div class="stat-grid">
+  <div class="stat">
+    <span>Basic Pay</span>
+    <strong id="secondBasic">₱0.00</strong>
+  </div>
+  <div class="stat">
+    <span>Gas Allowance</span>
+    <strong id="secondGas">₱0.00</strong>
+  </div>
+  <div class="stat">
+    <span>Regular Incentives</span>
+    <strong id="secondRegular">₱0.00</strong>
+  </div>
+  <div class="stat">
+    <span>SDD Earnings</span>
+    <strong id="secondSDD">₱0.00</strong>
+  </div>
+  <div class="stat">
+    <span>Pickup Earnings</span>
+    <strong id="secondPickup">₱0.00</strong>
+  </div>
+</div>
+<div class="result">
+  <div class="result-row"><b>2nd Cutoff Total</b><b class="total" id="secondTotal">₱0.00</b></div>
+</div>
+
+<hr>
+
+<div class="result">
+  <div class="result-row"><b>Monthly Gross Payroll</b><b class="total" id="monthlyTotal">₱0.00</b></div>
+  <div class="result-row"><span>Total Work Expenses</span><b id="monthlyExpenses">₱0.00</b></div>
+  <div class="result-row"><b>Estimated Net Profit</b><b class="total" id="monthlyNet">₱0.00</b></div>
+</div>
+</div>
+
+<div class="card">
+<h2>Monthly Report</h2>
+<div class="stat-grid">
+  <div class="stat"><span>Working Days</span><strong id="workingDays">0</strong></div>
+  <div class="stat"><span>Regular Delivered</span><strong id="monthRegular">0</strong></div>
+  <div class="stat"><span>SDD Delivered</span><strong id="monthSDD">0</strong></div>
+  <div class="stat"><span>Pickup Parcels</span><strong id="monthPickup">0</strong></div>
+  <div class="stat"><span>Total Successful</span><strong id="monthDelivered">0</strong></div>
+  <div class="stat"><span>Success Rate</span><strong id="monthRate">0%</strong></div>
+</div>
+</div>
+
+</div>
+
+</div>
 
 <script>
-
-// =================================
-// SETTINGS
-// =================================
-
+const STORAGE_KEY = "parcelTrackerV2";
 const BASIC_PAY = 755;
-const REGULAR_INCENTIVE = 10;
-const SDD_RATE = 20;
-const PICKUP_RATE = 20;
-const ALLOWANCE_80 = 200;
-const NOON_BONUS = 50;
-const PERFORMANCE_BONUS = 100;
-
-const $ = id => document.getElementById(id);
-
-const money = n => '₱' + Number(n || 0).toLocaleString(
- 'en-PH',
- {minimumFractionDigits:2,maximumFractionDigits:2}
-);
-
-// =================================
-// LOCAL DATABASE
-// =================================
 
 let records = [];
-
-try {
- records = JSON.parse(
-  localStorage.getItem('parcelTrackerV2') || '[]'
- );
- if(!Array.isArray(records)) records=[];
-} catch(e) {
- records=[];
-}
-
-// =================================
-// DEFAULT DATE
-// =================================
-
-let now = new Date();
-
-$('date').value =
- now.getFullYear() + '-' +
- String(now.getMonth()+1).padStart(2,'0') + '-' +
- String(now.getDate()).padStart(2,'0');
-
-$('month').value =
- now.getFullYear() + '-' +
- String(now.getMonth()+1).padStart(2,'0');
-
-// =================================
-// MAIN CALCULATOR
-// =================================
-
-function calculate() {
-
- const regularAssigned = Math.max(
-  0,Math.floor(+$('regularAssigned').value || 0)
- );
-
- const regularDelivered = Math.max(
-  0,Math.floor(+$('regularDelivered').value || 0)
- );
-
- const sddAssigned = Math.max(
-  0,Math.floor(+$('sddAssigned').value || 0)
- );
-
- const sddDelivered = Math.max(
-  0,Math.floor(+$('sddDelivered').value || 0)
- );
-
- const pickup = Math.max(
-  0,Math.floor(+$('pickup').value || 0)
- );
-
- const beforeNoon = Math.max(
-  0,Math.floor(+$('beforeNoon').value || 0)
- );
-
- const expenses = Math.max(
-  0,+$('expenses').value || 0
- );
-
- // REGULAR + SDD ARE ELIGIBLE
- const eligibleAssigned =
-  regularAssigned + sddAssigned;
-
- const eligibleDelivered =
-  regularDelivered + sddDelivered;
-
- // SUCCESS RATE
- const rate = eligibleAssigned > 0
-  ? eligibleDelivered / eligibleAssigned * 100
-  : 0;
-
- // REGULAR INCENTIVE:
- // Only regular parcels from 81st onward.
- // SDD does not receive this ₱10 payment.
- const incentive =
-  Math.max(0,regularDelivered - 80) * REGULAR_INCENTIVE;
-
- // 80 PARCEL ALLOWANCE
- const allowance =
-  eligibleDelivered >= 80 ? ALLOWANCE_80 : 0;
-
- // BEFORE NOON BONUS
- const noonBonus =
-  beforeNoon >= 60 ? NOON_BONUS : 0;
-
- // SDD: STRICTLY ₱20 EACH
- const sddPay = sddDelivered * SDD_RATE;
-
- // PICKUP: STRICTLY ₱20 EACH
- const pickupPay = pickup * PICKUP_RATE;
-
- // PERFORMANCE BONUS:
- // 110 OR MORE + 95.5% SUCCESS RATE
- const performance =
-  eligibleDelivered >= 110 && rate >= 95.5
-  ? PERFORMANCE_BONUS : 0;
-
- // TOTAL
- const gross =
-  BASIC_PAY +
-  incentive +
-  allowance +
-  noonBonus +
-  sddPay +
-  pickupPay +
-  performance;
-
- const net = gross - expenses;
-
- // DISPLAY
- $('basic').textContent = money(BASIC_PAY);
- $('incentive').textContent = money(incentive);
- $('allowance').textContent = money(allowance);
- $('noonBonus').textContent = money(noonBonus);
- $('sddPay').textContent = money(sddPay);
- $('pickupPay').textContent = money(pickupPay);
- $('performance').textContent = money(performance);
-
- $('gross').textContent = money(gross);
- $('expenseLine').textContent = money(expenses);
- $('net').textContent = money(net);
- $('netLine').textContent = money(net);
-
- $('eligibleStat').textContent = eligibleDelivered;
- $('rateStat').textContent =
-  eligibleAssigned > 0 ? rate.toFixed(2)+'%' : '—';
-
- $('details').textContent =
-  'Regular: '+regularDelivered+
-  ' | SDD: '+sddDelivered+
-  ' | Pickup: '+pickup+
-  ' | Eligible total: '+eligibleDelivered+
-  ' | Success rate: '+rate.toFixed(2)+'%';
-
- return {
-  date:$('date').value,
-  regularAssigned,
-  regularDelivered,
-  sddAssigned,
-  sddDelivered,
-  pickup,
-  beforeNoon,
-  expenses,
-  eligibleAssigned,
-  eligibleDelivered,
-  rate:+rate.toFixed(2),
-  basic:BASIC_PAY,
-  incentive,
-  allowance,
-  noonBonus,
-  sddPay,
-  pickupPay,
-  performance,
-  gross,
-  net
- };
-}
-
-// =================================
-// AUTOMATIC CALCULATION
-// =================================
-
-[
- 'date',
- 'regularAssigned',
- 'regularDelivered',
- 'sddAssigned',
- 'sddDelivered',
- 'pickup',
- 'beforeNoon',
- 'expenses'
-].forEach(id => {
- $(id).addEventListener('input',calculate);
-});
-
-// =================================
-// SAVE RECORD
-// =================================
-
-function saveDay() {
-
- const r = calculate();
-
- if(!r.date) {
-  alert('Please select a date.');
-  return;
- }
-
- if(r.regularDelivered > r.regularAssigned ||
-    r.sddDelivered > r.sddAssigned) {
-  if(!confirm('Delivered parcels exceed assigned parcels. Save anyway?')) {
-   return;
-  }
- }
-
- if(r.beforeNoon > r.eligibleDelivered) {
-  if(!confirm('Before-noon count exceeds eligible deliveries. Save anyway?')) {
-   return;
-  }
- }
-
- const index = records.findIndex(
-  x => x.date === r.date
- );
-
- if(index >= 0) {
-  if(!confirm('A record for this date already exists. Replace it?')) {
-   return;
-  }
-  records[index] = r;
- } else {
-  records.push(r);
- }
-
- persist();
- showHistory();
- showMonthly();
-
- alert('Daily record saved successfully!');
-}
-
-// =================================
-// SAVE TO PHONE
-// =================================
-
-function persist() {
- localStorage.setItem(
-  'parcelTrackerV2',
-  JSON.stringify(records)
- );
-}
-
-// =================================
-// DAILY HISTORY
-// =================================
-
-function showHistory() {
-
- if(records.length === 0) {
-  $('history').textContent='No records saved yet.';
-  return;
- }
-
- $('history').innerHTML = '';
-
- records.slice()
- .sort((a,b)=>b.date.localeCompare(a.date))
- .forEach(r=>{
-
-  const div = document.createElement('div');
-  div.className='record';
-
-  const title = document.createElement('strong');
-  title.textContent=r.date;
-
-  const info = document.createElement('p');
-  info.textContent =
-   'Regular: '+r.regularDelivered+
-   ' | SDD: '+r.sddDelivered+
-   ' | Pickup: '+r.pickup+
-   ' | Success: '+r.rate+'%';
-
-  const earnings = document.createElement('p');
-  earnings.innerHTML =
-   'Net Profit: <b>'+money(r.net)+'</b>';
-
-  const load = document.createElement('button');
-  load.className='secondary';
-  load.textContent='LOAD RECORD';
-  load.onclick=()=>loadDay(r.date);
-
-  const del = document.createElement('button');
-  del.className='danger';
-  del.textContent='DELETE RECORD';
-  del.onclick=()=>deleteDay(r.date);
-
-  div.append(title,info,earnings,load,del);
-  $('history').appendChild(div);
- });
-}
-
-// =================================
-// LOAD OLD RECORD
-// =================================
-
-function loadDay(date) {
-
- const r=records.find(x=>x.date===date);
- if(!r)return;
-
- $('date').value=r.date;
- $('regularAssigned').value=r.regularAssigned;
- $('regularDelivered').value=r.regularDelivered;
- $('sddAssigned').value=r.sddAssigned;
- $('sddDelivered').value=r.sddDelivered;
- $('pickup').value=r.pickup;
- $('beforeNoon').value=r.beforeNoon;
- $('expenses').value=r.expenses;
-
- calculate();
- window.scrollTo(0,0);
-}
-
-// =================================
-// DELETE RECORD
-// =================================
-
-function deleteDay(date) {
-
- if(!confirm('Delete this daily record?'))return;
-
- records=records.filter(x=>x.date!==date);
-
- persist();
- showHistory();
- showMonthly();
-}
-
-// =================================
-// MONTHLY REPORT
-// =================================
-
-function showMonthly() {
-
- const month=$('month').value;
-
- const list=records.filter(
-  r=>r.date && r.date.startsWith(month)
- );
-
- const total = key => list.reduce(
-  (sum,r)=>sum+(Number(r[key])||0),0
- );
-
- $('workDays').textContent=list.length;
-
- $('monthRegular').textContent=total('regularDelivered');
- $('monthSDD').textContent=total('sddDelivered');
- $('monthPickup').textContent=total('pickup');
-
- $('monthGross').textContent=money(total('gross'));
- $('monthExpenses').textContent=money(total('expenses'));
- $('monthNet').textContent=money(total('net'));
-}
-
-$('month').addEventListener('input',showMonthly);
-
-// =================================
-// EXPORT BACKUP
-// =================================
-
-function exportBackup() {
-
- const blob=new Blob(
-  [JSON.stringify(records,null,2)],
-  {type:'application/json'}
- );
-
- const url=URL.createObjectURL(blob);
-
- const a=document.createElement('a');
- a.href=url;
- a.download='parcel-tracker-backup.json';
- a.click();
-
- setTimeout(()=>URL.revokeObjectURL(url),1000);
-}
-
-// =================================
-// IMPORT BACKUP
-// =================================
-
-function importBackup(event) {
-
- const file=event.target.files[0];
- if(!file)return;
-
- const reader=new FileReader();
-
- reader.onload=()=>{
-
-  try {
-
-   const data=JSON.parse(reader.result);
-
-   if(!Array.isArray(data))throw Error();
-
-   if(!confirm('Import backup records? Existing matching dates will be replaced.'))return;
-
-   data.forEach(r=>{
-
-    if(!r.date || !Number.isFinite(+r.net))return;
-
-    const index=records.findIndex(
-     x=>x.date===r.date
-    );
-
-    if(index>=0)records[index]=r;
-    else records.push(r);
-   });
-
-   persist();
-   showHistory();
-   showMonthly();
-
-   alert('Backup imported successfully!');
-
-  } catch(e) {
-   alert('Invalid backup file.');
-  }
- };
-
- reader.readAsText(file);
- event.target.value='';
-}
-
-// =================================
-// CLEAR ALL RECORDS
-// =================================
-
-function clearHistory() {
-
- if(!confirm('Delete ALL saved records? Export a backup first!'))return;
-
- records=[];
-
- persist();
- showHistory();
- showMonthly();
-}
-
-// =================================
-// START APP
-// =================================
-
-calculate();
-showHistory();
-showMonthly();
-
-</script>
- <script>
-if ("serviceWorker" in navigator) {
-  window.addEventListener("load", () => {
-    navigator.serviceWorker.register("./service-worker.js");
+let currentCalculation = null;
+
+function peso(value){
+  return "₱" + Number(value || 0).toLocaleString("en-PH",{
+    minimumFractionDigits:2,
+    maximumFractionDigits:2
   });
 }
- </script>
-</body>
-</html>
+
+function number(id){
+  return Math.max(0,Number(document.getElementById(id).value)||0);
+}
+
+function loadRecords(){
+  try{
+    const saved = localStorage.getItem(STORAGE_KEY);
+    records = saved ? JSON.parse(saved) : [];
+    if(!Array.isArray(records)) records = [];
+  }catch(e){
+    records = [];
+  }
+}
+
+function saveRecordsToStorage(){
+  localStorage.setItem(STORAGE_KEY,JSON.stringify(records));
+}
+
+function todayLocal(){
+  const d = new Date();
+  const year = d.getFullYear();
+  const month = String(d.getMonth()+1).padStart(2,"0");
+  const day = String(d.getDate()).padStart(2,"0");
+  return `${year}-${month}-${day}`;
+}
+
+function showTab(id,button){
+  document.querySelectorAll(".section").forEach(s=>s.classList.remove("active"));
+  document.querySelectorAll(".tabs button").forEach(b=>b.classList.remove("active"));
+  document.getElementById(id).classList.add("active");
+  button.classList.add("active");
+
+  if(id==="history") showHistory();
+  if(id==="payroll") showPayrollProjection();
+}
+
+function getPayrollValues(r){
+  const regularAssigned = Number(r.regularAssigned ?? r.assigned ?? 0);
+  const regularDelivered = Number(r.regularDelivered ?? r.delivered ?? 0);
+  const sddAssigned = Number(r.sddAssigned ?? 0);
+  const sddDelivered = Number(r.sddDelivered ?? 0);
+  const pickup = Number(r.pickup ?? r.pickups ?? 0);
+  const beforeNoon = Number(r.beforeNoon ?? 0);
+  const expenses = Number(r.expenses ?? 0);
+
+  const totalAssigned = regularAssigned+sddAssigned;
+  const totalDelivered = regularDelivered+sddDelivered;
+
+  const active =
+    regularAssigned>0 ||
+    regularDelivered>0 ||
+    sddAssigned>0 ||
+    sddDelivered>0 ||
+    pickup>0;
+
+  const basic = active ? BASIC_PAY : 0;
+  const regularIncentive = Math.max(0,regularDelivered-80)*10;
+  const sddPay = sddDelivered*20;
+  const pickupPay = pickup*20;
+
+  const allowance80 = totalDelivered>=80 ? 200 : 0;
+  const noonBonus = beforeNoon>=60 ? 50 : 0;
+
+  const successRate = totalAssigned>0
+    ? (totalDelivered/totalAssigned)*100
+    : 0;
+
+  const performanceBonus =
+    totalDelivered>=110 && successRate>=95.5 ? 100 : 0;
+
+  const gas = allowance80+noonBonus+performanceBonus;
+
+  const gross =
+    basic+
+    regularIncentive+
+    sddPay+
+    pickupPay+
+    gas;
+
+  return {
+    basic,
+    regularIncentive,
+    sddPay,
+    pickupPay,
+    allowance80,
+    noonBonus,
+    performanceBonus,
+    gas,
+    gross,
+    expenses,
+    net:gross-expenses,
+    regularAssigned,
+    regularDelivered,
+    sddAssigned,
+    sddDelivered,
+    pickup,
+    beforeNoon,
+    totalAssigned,
+    totalDelivered,
+    successRate,
+    active
+  };
+}
+
+function calculate(){
+  const date = document.getElementById("date").value;
+  if(!date){
+    alert("Please select a date.");
+    return;
+  }
+
+  const record = {
+    date,
+    regularAssigned:number("regularAssigned"),
+    regularDelivered:number("regularDelivered"),
+    sddAssigned:number("sddAssigned"),
+    sddDelivered:number("sddDelivered"),
+    pickup:number("pickup"),
+    beforeNoon:number("beforeNoon"),
+    expenses:number("expenses")
+  };
+
+  if(record.regularDelivered>record.regularAssigned){
+    alert("Regular delivered parcels cannot exceed regular assigned parcels.");
+    return;
+  }
+
+  if(record.sddDelivered>record.sddAssigned){
+    alert("SDD delivered parcels cannot exceed SDD assigned parcels.");
+    return;
+  }
+
+  if(record.beforeNoon>record.regularDelivered+record.sddDelivered){
+    alert("Before-noon deliveries cannot exceed total successful deliveries.");
+    return;
+  }
+
+  currentCalculation = record;
+  showDailyResult(record);
+}
+
+function showDailyResult(record){
+  const v = getPayrollValues(record);
+  const box = document.getElementById("dailyResult");
+
+  box.style.display="block";
+  box.innerHTML=`
+    <h3>Daily Earnings Breakdown</h3>
+    <div class="result-row"><span>Basic Pay</span><b>${peso(v.basic)}</b></div>
+    <div class="result-row"><span>Regular Incentive</span><b>${peso(v.regularIncentive)}</b></div>
+    <div class="result-row"><span>80-Parcel Allowance</span><b>${peso(v.allowance80)}</b></div>
+    <div class="result-row"><span>Before-Noon Allowance</span><b>${peso(v.noonBonus)}</b></div>
+    <div class="result-row"><span>110-Parcel Performance Bonus</span><b>${peso(v.performanceBonus)}</b></div>
+    <div class="result-row"><span>SDD Earnings</span><b>${peso(v.sddPay)}</b></div>
+    <div class="result-row"><span>Pickup Earnings</span><b>${peso(v.pickupPay)}</b></div>
+    <div class="result-row"><b>Gross Earnings</b><b class="total">${peso(v.gross)}</b></div>
+    <div class="result-row"><span>Expenses</span><b>${peso(v.expenses)}</b></div>
+    <div class="result-row"><b>Net Profit</b><b class="total">${peso(v.net)}</b></div>
+    <p class="muted">Success rate: ${v.successRate.toFixed(2)}%</p>
+  `;
+}
+
+function saveRecord(){
+  if(!currentCalculation){
+    calculate();
+    if(!currentCalculation) return;
+  }
+
+  const record = currentCalculation;
+  const index = records.findIndex(r=>r.date===record.date);
+
+  if(index>=0){
+    if(!confirm("A record for this date already exists. Replace it?")) return;
+    records[index]=record;
+  }else{
+    records.push(record);
+  }
+
+  records.sort((a,b)=>a.date.localeCompare(b.date));
+  saveRecordsToStorage();
+  showHistory();
+  showPayrollProjection();
+
+  alert("Daily record saved successfully.");
+  currentCalculation=null;
+}
+
+function showHistory(){
+  const box=document.getElementById("historyList");
+
+  if(records.length===0){
+    box.innerHTML='<div class="empty">No daily records saved yet.</div>';
+    return;
+  }
+
+  box.innerHTML=[...records].sort((a,b)=>b.date.localeCompare(a.date)).map(r=>{
+    const v=getPayrollValues(r);
+    return `
+      <div class="history-item">
+        <div class="history-top">
+          <b>${r.date}</b>
+          <b class="amount">${peso(v.net)}</b>
+        </div>
+        <p>
+          Regular: ${v.regularDelivered} delivered |
+          SDD: ${v.sddDelivered} delivered |
+          Pickup: ${v.pickup}
+        </p>
+        <p>Gross: ${peso(v.gross)} | Expenses: ${peso(v.expenses)}</p>
+        <button class="small secondary" onclick="editRecord('${r.date}')">Edit</button>
+        <button class="small danger" onclick="deleteRecord('${r.date}')">Delete</button>
+      </div>
+    `;
+  }).join("");
+}
+
+function editRecord(date){
+  const r=records.find(x=>x.date===date);
+  if(!r) return;
+
+  document.getElementById("date").value=r.date;
+  document.getElementById("regularAssigned").value=r.regularAssigned ?? r.assigned ?? 0;
+  document.getElementById("regularDelivered").value=r.regularDelivered ?? r.delivered ?? 0;
+  document.getElementById("sddAssigned").value=r.sddAssigned ?? 0;
+  document.getElementById("sddDelivered").value=r.sddDelivered ?? 0;
+  document.getElementById("pickup").value=r.pickup ?? r.pickups ?? 0;
+  document.getElementById("beforeNoon").value=r.beforeNoon ?? 0;
+  document.getElementById("expenses").value=r.expenses ?? 0;
+
+  currentCalculation=null;
+  document.getElementById("dailyResult").style.display="none";
+
+  document.querySelectorAll(".tabs button")[0].click();
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+
+function deleteRecord(date){
+  if(!confirm("Delete this daily record?")) return;
+  records=records.filter(r=>r.date!==date);
+  saveRecordsToStorage();
+  showHistory();
+  showPayrollProjection();
+}
+
+function showPayrollProjection(){
+  const month=document.getElementById("payrollMonth").value;
+  if(!month) return;
+
+  const monthRecords=records.filter(r=>String(r.date||"").startsWith(month));
+
+  let firstBasic=0,firstGas=0;
+  let secondBasic=0,secondGas=0;
+  let regular=0,sdd=0,pickup=0,expenses=0;
+  let workingDays=0;
+  let monthRegular=0,monthSDD=0,monthPickup=0;
+  let monthAssigned=0,monthDelivered=0;
+
+  monthRecords.forEach(r=>{
+    const v=getPayrollValues(r);
+
+    if(v.active) workingDays++;
+
+    monthRegular+=v.regularDelivered;
+    monthSDD+=v.sddDelivered;
+    monthPickup+=v.pickup;
+    monthAssigned+=v.totalAssigned;
+    monthDelivered+=v.totalDelivered;
+    expenses+=v.expenses;
+
+    if(Number(r.date.slice(8,10))<=15){
+      firstBasic+=v.basic;
+      firstGas+=v.gas;
+    }else{
+      secondBasic+=v.basic;
+      secondGas+=v.gas;
+    }
+
+    // All incentives, SDD and pickup earnings go to second cutoff.
+    regular+=v.regularIncentive;
+    sdd+=v.sddPay;
+    pickup+=v.pickupPay;
+  });
+
+  const firstTotal=firstBasic+firstGas;
+  const secondTotal=secondBasic+secondGas+regular+sdd+pickup;
+  const monthlyTotal=firstTotal+secondTotal;
+  const monthlyNet=monthlyTotal-expenses;
+  const rate=monthAssigned>0?(monthDelivered/monthAssigned)*100:0;
+
+  setText("firstBasic",peso(firstBasic));
+  setText("firstGas",peso(firstGas));
+  setText("firstTotal",peso(firstTotal));
+
+  setText("secondBasic",peso(secondBasic));
+  setText("secondGas",peso(secondGas));
+  setText("secondRegular",peso(regular));
+  setText("secondSDD",peso(sdd));
+  setText("secondPickup",peso(pickup));
+  setText("secondTotal",peso(secondTotal));
+
+  setText("monthlyTotal",peso(monthlyTotal));
+  setText("monthlyExpenses",peso(expenses));
+  setText("monthlyNet",peso(monthlyNet));
+
+  setText("workingDays",workingDays);
+  setText("monthRegular",monthRegular);
+  setText("monthSDD",monthSDD);
+  setText("monthPickup",monthPickup);
+  setText("monthDelivered",monthDelivered);
+  setText("monthRate",rate.toFixed(2)+"%");
+}
+
+function setText(id,value){
+  document.getElementById(id).textContent=value;
+}
+
+function exportBackup(){
+  const data={
+    app:"J&T Parcel Profit Tracker",
+    version:2,
+    exportedAt:new Date().toISOString(),
+    records
+  };
+
+  const blob=new Blob([JSON.stringify(data,null,2)],{
+    type:"application/json"
+  });
+
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement("a");
+  a.href=url;
+  a.download="parcel-tracker-backup-"+todayLocal()+".json";
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  URL.revokeObjectURL(url);
+}
+
+function importBackup(){
+  const fileInput=document.getElementById("importFile");
+  const file=fileInput.files[0];
+
+  if(!file){
+    alert("Please choose a backup JSON file first.");
+    return;
+  }
+
+  const reader=new FileReader();
+
+  reader.onload=function(){
+    try{
+      const data=JSON.parse(reader.result);
+      const imported=Array.isArray(data)?data:data.records;
+
+      if(!Array.isArray(imported)){
+        throw new Error("Invalid backup format");
+      }
+
+      if(!confirm("Import these records? Records with matching dates will be replaced.")) return;
+
+      imported.forEach(r=>{
+        if(!r || !r.date) return;
+        const index=records.findIndex(x=>x.date===r.date);
+        if(index>=0) records[index]=r;
+        else records.push(r);
+      });
+
+      records.sort((a,b)=>a.date.localeCompare(b.date));
+      saveRecordsToStorage();
+      showHistory();
+      showPayrollProjection();
+      fileInput.value="";
+      alert("Backup imported successfully.");
+    }catch(e){
+      alert("Could not import thi

@@ -718,4 +718,45 @@ function importBackup(){
       fileInput.value="";
       alert("Backup imported successfully.");
     }catch(e){
-      alert("Could not import thi
+      
+      alert("Could not import this backup. Please check that it is a valid tracker JSON file.");
+    }
+  };
+
+  reader.readAsText(file);
+}
+
+function clearHistory(){
+  if(!confirm("Are you sure you want to delete ALL saved daily records?")) return;
+  if(!confirm("This cannot be undone. Have you exported a backup?")) return;
+
+  records=[];
+  saveRecordsToStorage();
+  showHistory();
+  showPayrollProjection();
+  alert("All daily records have been cleared.");
+}
+
+function initialize(){
+  loadRecords();
+
+  document.getElementById("date").value=todayLocal();
+  document.getElementById("payrollMonth").value=todayLocal().slice(0,7);
+
+  showHistory();
+  showPayrollProjection();
+}
+
+initialize();
+
+if("serviceWorker" in navigator){
+  window.addEventListener("load",()=>{
+    navigator.serviceWorker.register("service-worker.js").catch(err=>{
+      console.log("Service worker registration failed:",err);
+    });
+  });
+}
+</script>
+</body>
+</html>
+

@@ -223,7 +223,7 @@ hr{border:0;border-top:1px solid var(--border);margin:15px 0}
 <div class="result-row"><span>SDD Earnings</span><b>₱20 per successful SDD</b></div>
 <div class="result-row"><span>Pickup Earnings</span><b>₱20 per pickup</b></div>
 <div class="result-row"><span>80+ Successful Deliveries</span><b>₱200</b></div>
-<div class="result-row"><span>60+ Before Noon</span><b>₱50</b></div>
+<div class="result-row"><span>75+ Before Noon</span><b>₱50</b></div>
 <div class="result-row"><span>110+ and 95.5% Success Rate</span><b>₱100</b></div>
 </div>
 
@@ -405,7 +405,7 @@ function getPayrollValues(r){
   const pickupPay = pickup*20;
 
   const allowance80 = totalDelivered>=80 ? 200 : 0;
-  const noonBonus = beforeNoon>=60 ? 50 : 0;
+  const noonBonus = beforeNoon>=75 ? 50 : 0;
 
   const successRate = totalAssigned>0
     ? (totalDelivered/totalAssigned)*100
